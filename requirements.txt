@@ -1,3 +1,5 @@
-pytest
-numpy
 chess~=1.9.4 
+fastapi[all]
+numpy
+pytest
+requests

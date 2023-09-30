@@ -3,12 +3,22 @@ Chess board/position functionality
 """
 
 from enum import Enum
+from io import StringIO 
+import logging
+from os import environ
+from pathlib import Path
 from re import split
+from requests import get
+from typing import Union
 
 import numpy as np
 from numpy import int32
 
 import gambit.fen
+
+from chess.pgn import read_game
+
+logging.getLogger("gambit").addHandler(logging.NullHandler())
 
 EMPTY = 0
 PAWN = 1
@@ -41,6 +51,7 @@ PIECE_MAP = {
 
 
 class Board:
+    MAX_PGN_MOVES = int(environ.get("MAX_PGN_MOVES", 15))
     def __init__(self, empty=False):
         self.board = np.zeros(BOARD_SIZE ** 2, dtype=int32)
         self.turn = WHITE
@@ -48,6 +59,7 @@ class Board:
         self.en_passant_square: str = None
         self.half_moves = 0
         self.full_moves = 1
+        self.fen = None
 
         if not empty:
             self.set_up_new_game()
@@ -82,7 +94,7 @@ class Board:
         for i in range(self.board.shape[0]):
             _sum += self.board[i] * multi
             multi *= 2
-        
+
         return int(_sum)
     
     def set_up_new_game(self):
@@ -109,7 +121,9 @@ class Board:
         """
         Return a board for the pgn position
         """
-        fen = gambit.fen.expand_fen(fen_txt)
+        logging.debug(f"Build board from fen: {fen_txt}")
+        fen = gambit.fen.convert_fen_from_url(fen_txt) if "+" in fen_txt else fen_txt
+        fen = gambit.fen.expand_fen(fen)
         ranks = gambit.fen.position_text_from_fen(fen)
         ranks = ranks.split("/")
         board = cls(empty=True)
@@ -119,9 +133,41 @@ class Board:
                 try:
                     board.board[Board._index(i_file, i_rank)] = PIECE_MAP[square]
                 except IndexError as exc:
-                    print(exc)
+                    logging.exception(exc)
                     Board._index(i_file, i_rank)
 
+        board.fen = fen_txt
+        logging.debug(f"Board hash is {hash(board)}")
         return board
-        
+    
+    @classmethod
+    def from_pgn(cls, _pgn: Union[str, Path]) -> iter:
+        """
+        Generate a iterable of Board for a game
+        """
+        pgn_positions = read_game(StringIO(_pgn) if isinstance(_pgn, str) else Path.open("r")).mainline()
+        return (cls.from_fen(position.board().fen()) for position in pgn_positions)
 
+
+    
+    def get_variation_name(self, method="lichess"):
+        if method == "lichess":
+            return self._get_variation_from_lichess()
+
+    def fen(self):
+        """return FEN of the board"""
+        pass
+            
+
+    def _get_variation_from_lichess(self):
+        base_url = "https://explorer.lichess.ovh/masters?fen="
+        fen = self.fen.replace(" ", "+")
+        response = get(base_url + fen)
+        if not response.ok:
+            return None
+        
+        try:
+            return response.json()["opening"]["name"]
+        except KeyError:
+            return "Unknown"
+        

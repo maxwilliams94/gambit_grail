@@ -1,7 +1,15 @@
 """
 FEN parsing
 """
+import logging
 import re
+
+logging.getLogger("gambit").addHandler(logging.NullHandler())
+def convert_fen_from_url(fen_txt: str) -> str:
+    """
+    Convert a fen which has been passed as in a url back to the original form
+    """
+    return fen_txt.replace("+", " ")
 
 def expand_fen(fen_text: str) -> str:
     """
@@ -69,3 +77,6 @@ def full_move_clock_text_from_fen(fen_text: str) -> str:
     details = detail_text_from_fen(fen_text)
     return details.split(" ")[4]
 
+def fen_for_url(fen: str) -> str:
+    """Take a raw fen string and make it ready to be passed as a url"""
+    return fen.replace(" ", "+")

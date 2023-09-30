@@ -1,12 +1,15 @@
 """
 Parsing and output of PGN formats
 """
+import logging
 from pathlib import Path
 from typing import Union, List
 
 from chess.pgn import read_game, read_headers
 
 from gambit.board import Board
+
+logging.getLogger("gambit").addHandler(logging.NullHandler())
 
 
 def boards_from_pgn(pgn: Union[Path, str]) -> List[Board]:
