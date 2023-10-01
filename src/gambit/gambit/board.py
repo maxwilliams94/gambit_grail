@@ -18,7 +18,8 @@ import gambit.fen
 
 from chess.pgn import read_game
 
-logging.getLogger("gambit").addHandler(logging.NullHandler())
+logger = logging.getLogger("gambit")
+logger.addHandler(logging.NullHandler())
 
 EMPTY = 0
 PAWN = 1
@@ -121,7 +122,7 @@ class Board:
         """
         Return a board for the pgn position
         """
-        logging.debug(f"Build board from fen: {fen_txt}")
+        logger.debug(f"Build board from fen: {fen_txt}")
         fen = gambit.fen.convert_fen_from_url(fen_txt) if "+" in fen_txt else fen_txt
         fen = gambit.fen.expand_fen(fen)
         ranks = gambit.fen.position_text_from_fen(fen)
@@ -137,7 +138,7 @@ class Board:
                     Board._index(i_file, i_rank)
 
         board.fen = fen_txt
-        logging.debug(f"Board hash is {hash(board)}")
+        logger.debug(f"Board hash is {hash(board)}")
         return board
     
     @classmethod

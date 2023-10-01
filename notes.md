@@ -4,7 +4,6 @@
 - Passing a known gambit FEN into the /game=fen= api yields True and the name of the gambit
 
 ## TODO
-- Logging names are all root::DEBUG/root::INFO rather than gambit::INFO
 - Test passing entire PGN in
 
 # TODO

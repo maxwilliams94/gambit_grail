@@ -8,7 +8,8 @@ from typing import List
 from chess.pgn import read_game, GameNode, Game
 from gambit.board import Board
 
-logging.getLogger("gambit").addHandler(logging.NullHandler())
+logger = logging.getLogger("gambit")
+logger.addHandler(logging.NullHandler())
 
 def load_pgn(file_path: Path) -> Game:
     with open(file_path, "r") as pgn:
@@ -19,7 +20,7 @@ def create_nodes(game: Game):
     nodes = []
     stack = game.variations
     while stack:
-        logging.debug(f"stack of {len(stack)}")
+        logger.debug(f"stack of {len(stack)}")
         node = stack.pop()
         while not node.is_end():
             if node.has_variation:
