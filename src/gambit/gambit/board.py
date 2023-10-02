@@ -122,7 +122,6 @@ class Board:
         """
         Return a board for the pgn position
         """
-        logger.debug(f"Build board from fen: {fen_txt}")
         fen = gambit.fen.convert_fen_from_url(fen_txt) if "+" in fen_txt else fen_txt
         fen = gambit.fen.expand_fen(fen)
         ranks = gambit.fen.position_text_from_fen(fen)
@@ -138,7 +137,7 @@ class Board:
                     Board._index(i_file, i_rank)
 
         board.fen = fen_txt
-        logger.debug(f"Board hash is {hash(board)}")
+        logger.debug(f"Built board from fen: {fen_txt}. Hash: {hash(board)}")
         return board
     
     @classmethod
@@ -148,7 +147,6 @@ class Board:
         """
         pgn_positions = read_game(StringIO(_pgn) if isinstance(_pgn, str) else Path.open("r")).mainline()
         return (cls.from_fen(position.board().fen()) for position in pgn_positions)
-
 
     
     def get_variation_name(self, method="lichess"):

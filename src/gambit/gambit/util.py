@@ -10,8 +10,10 @@ def cast_singleton(_it: Iterable):
     """
     if isinstance(_it, Iterator):
         array = list(_it)
+    else:
+        array = _it
 
-    if len(array) == 0:
+    if len(array) == 1:
         return array[0]
 
     return array 

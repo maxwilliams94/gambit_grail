@@ -9,7 +9,8 @@ from chess.pgn import read_game, read_headers
 
 from gambit.board import Board
 
-logging.getLogger("gambit").addHandler(logging.NullHandler())
+logger = logging.getLogger("gambit")
+logger.addHandler(logging.NullHandler())
 
 
 def boards_from_pgn(pgn: Union[Path, str]) -> List[Board]:
@@ -27,4 +28,7 @@ def boards_from_pgn(pgn: Union[Path, str]) -> List[Board]:
         board = Board.from_fen(game.board())
         boards.append(board)
         game = game.next()
+    
+    logger.debug(f"boards_from_pgn: returning {len(boards)} boards.")
+    return boards
         

@@ -4,9 +4,10 @@
 - Passing a known gambit FEN into the /game=fen= api yields True and the name of the gambit
 
 ## TODO
-- Test passing entire PGN in
+- Setup Pylint
+- Prepare to containerise
 
-# TODO
+# TODO?
 - open telemetry?
 
 # Requirements
