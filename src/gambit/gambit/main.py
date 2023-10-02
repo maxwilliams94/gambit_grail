@@ -52,7 +52,8 @@ async def lifespan(app: FastAPI):
     on start up tasks
     """
     logging.getLogger("gambit")
-    logging.basicConfig(filename="/tmp/gambit.log", filemode="w", level=getattr(logging, os.environ.get("LOG_LEVEL", "INFO")), force=True)
+    logging.basicConfig(filename="/tmp/gambit.log", filemode="w", level=getattr(logging, os.environ.get("LOG_LEVEL", "INFO")), force=True,
+                        format="%(asctime)s %(name)s::%(levelname)s::%(module)s %(message)s")
     app.gambit_boards = create_gambit_boards(settings.gambit_pgn_path)
     app.board_map = {hash(app.gambit_boards[i]): i for i in range(len(app.gambit_boards))}
     

@@ -5,6 +5,7 @@
 
 ## TODO
 - Test passing entire PGN in
+- Setup Pylint
 
 # TODO
 - open telemetry?

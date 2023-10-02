@@ -20,7 +20,6 @@ def create_nodes(game: Game):
     nodes = []
     stack = game.variations
     while stack:
-        logger.debug(f"stack of {len(stack)}")
         node = stack.pop()
         while not node.is_end():
             if node.has_variation:
@@ -30,7 +29,7 @@ def create_nodes(game: Game):
                 node = node.next()
         
         nodes.append(node)
-    
+    logger.info(f"create_nodes: {len(nodes)} nodes.")
     return nodes
 
 
@@ -42,7 +41,7 @@ def create_gambit_boards(pgn_path: Path) -> List[Board]:
     all_nodes = create_nodes(pgn)
     logging.info(f"{len(all_nodes)} nodes.")
     boards = [node.board() for node in all_nodes]
-    logging.info(f"{len(boards)} boards")
+    logging.info(f"Created {len(boards)} gambit boards")
 
     return [Board.from_fen(board.fen()) for board in boards]
 
