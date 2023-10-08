@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+
+[project]
+name = "gambit"
+version = "1.0.1"
+description = "chess game contains a gambit"
+readme = ""
+dependencies = [
+    "chess~=1.9.4 ",
+    "fastapi[all]==0.97.0",
+    "numpy==1.24.3",
+    "pytest==7.3.2",
+    "requests"
+]
+
+[metadata]
+author = "Max Williams"
+author-email = "me@maxwillia.ms"
+
+[tool.setuptools.packages.find]
+where = ["src"] 
