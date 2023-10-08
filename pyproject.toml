@@ -8,8 +8,8 @@ description = "chess game contains a gambit"
 readme = ""
 dependencies = [
     "chess~=1.9.4 ",
-    "fastapi[all]==0.97.0",
-    "numpy==1.24.3",
+    "fastapi[all]==0.103.2",
+    "numpy==1.26.0",
     "pytest==7.3.2",
     "requests"
 ]
