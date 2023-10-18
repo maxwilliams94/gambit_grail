@@ -2,6 +2,7 @@
 Create a database of Gambit board positions
 """
 import logging
+import os
 from pathlib import Path
 from typing import List
 
@@ -47,4 +48,4 @@ def create_gambit_boards(pgn_path: Path) -> List[Board]:
 
 
 if __name__ == "__main__":
-    create_gambit_boards("/Users/max/local/dev/gambit_grail/src/gambit/gambit/gambits.pgn")
+    create_gambit_boards(Path(os.environ.get("GAMBITS_PGN")))

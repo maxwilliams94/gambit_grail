@@ -10,15 +10,15 @@ from typing import Union, List
 
 from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI
-from pydantic import BaseSettings, BaseModel
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings
 
-from gambit_tree import create_gambit_boards
+from gambit.gambit_tree import create_gambit_boards
 from gambit.board import Board
 from gambit.util import cast_singleton
 
 class Settings(BaseSettings):
-    gambit_pgn_path: Path = Path(
-        "/Users/max/local/dev/gambit_grail/src/gambit/gambit/gambits.pgn")
+    gambit_pgn_path: Path = Path(os.environ.get("GAMBIT_PGN"))
     
 settings = Settings()
 

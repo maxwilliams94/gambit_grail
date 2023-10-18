@@ -2,12 +2,14 @@ FROM python:3.11.6-alpine
 
 RUN apk update && apk add git
 
-WORKDIR /src/gambit_grail
+WORKDIR /gambit_grail
 COPY pyproject.toml .
 COPY src ./src
 
-RUN python -m pip install .
-COPY run.sh /
-WORKDIR /
+ENV GAMBIT_PGN=/gambit_grail/src/gambit/gambits.pgn
 
-CMD ["sh", "/run.sh"]
+WORKDIR /gambit_grail
+RUN python -m pip install .
+
+WORKDIR /gambit_grail/src/gambit
+CMD ["uvicorn", "main:app"]

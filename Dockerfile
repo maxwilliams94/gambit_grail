@@ -2,12 +2,14 @@ FROM python:3.11.6-alpine
 
 RUN apk update && apk add git
 
-WORKDIR /src
+WORKDIR /
 ARG BRANCH="main"
 RUN git clone --branch ${BRANCH} https://github.com/maxwilliams94/gambit_grail.git gambit_grail
 
-WORKDIR /src/gambit_grail
-RUN python -m pip install .
-COPY run.sh /
+ENV GAMBIT_PGN=/gambit_grail/src/gambit/gambits.pgn
 
-CMD ["sh", "/run.sh"]
+WORKDIR /gambit_grail
+RUN python -m pip install .
+
+WORKDIR /gambit_grail/src/gambit
+CMD ["uvicorn", "main:app"]
