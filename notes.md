@@ -2,10 +2,11 @@
 - FastAPI locally served
     - Swagger: http://127.0.0.1:8000/docs
 - Passing a known gambit FEN into the /game=fen= api yields True and the name of the gambit
+- Docker container runs and logs can be accessed via a shared volume however something isn't working with the port exposure.
 
 ## TODO
+- Docker run command to properly expose ports
 - Setup Pylint
-- Prepare to containerise
 
 # TODO?
 - open telemetry?
