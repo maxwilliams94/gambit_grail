@@ -12,4 +12,4 @@ WORKDIR /gambit_grail
 RUN python -m pip install .
 
 WORKDIR /gambit_grail/src/gambit
-CMD ["uvicorn", "main:app"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
