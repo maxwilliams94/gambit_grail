@@ -22,7 +22,7 @@ uvicorn main:app
 ## Using Docker
 ```bash
 # Get debug logging and also have logs written to /tmp/gambit.log
-gambit_grail % LOG_LEVEL=DEBUG docker run -p 127.0.0.1:80:80 -v /tmp:/tmp gambit
+LOG_LEVEL=DEBUG docker run -p 127.0.0.1:80:80 -v /tmp:/tmp gambit_grail:0.1
 ```
 
 
